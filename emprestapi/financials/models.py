@@ -49,6 +49,14 @@ class Loan(models.Model):
         blank=False
     )
 
+    balance_due = models.DecimalField(
+        null=False, 
+        blank=False,
+        max_digits=12, 
+        decimal_places=2,
+        verbose_name='Saldo devedor'
+    )
+
 
 class Payment(models.Model):
 
