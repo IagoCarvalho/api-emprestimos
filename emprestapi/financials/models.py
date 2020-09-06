@@ -49,13 +49,17 @@ class Loan(models.Model):
         blank=False
     )
 
-    balance_due = models.DecimalField(
-        null=False, 
-        blank=False,
-        max_digits=12, 
-        decimal_places=2,
-        verbose_name='Saldo devedor'
-    )
+    def get_balance_due(self):
+        total_payment_balance = 0
+        for payment in self.payment_set.all():
+            total_payment_balance += payment.value
+        
+        return self.nominal_value - total_payment_balance
+    
+    def check_payment(self, payment_value):
+        current_balance_due = self.get_balance_due()
+
+        return payment_value <= current_balance_due
 
 
 class Payment(models.Model):
