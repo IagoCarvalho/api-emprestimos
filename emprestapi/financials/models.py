@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 
 class Loan(models.Model):
 
+    def __str__(self):
+        return "Empréstimo %s" % (self.id)
+
     nominal_value = models.DecimalField(
         null=False, 
         blank=False,
@@ -17,7 +20,7 @@ class Loan(models.Model):
         blank=False,
         max_digits=5, 
         decimal_places=2,
-        verbose_name='Taxa de Juros'
+        verbose_name='Taxa de Juros ao mês'
     )
 
     ip_adress = models.CharField(
@@ -49,12 +52,30 @@ class Loan(models.Model):
         blank=False
     )
 
+    acquittance_time = models.PositiveIntegerField(
+        null=False,
+        blank=False,
+        default=1,
+        verbose_name='Número de meses para quitação'
+    )
+
+
     def get_balance_due(self):
+        #DAYS_PER_MONTH = 30
+        #DAYS_PER_YEAR = 360
+
+        interest_rate_per_month = self.interest_rate / 100
+        #ir_pro_rata = (interest_rate_per_month) #/ DAYS_PER_MONTH
+        capital = self.nominal_value
+        time = self.acquittance_time
+
+        amount = capital * pow((1 + interest_rate_per_month), time)
+
         total_payment_balance = 0
         for payment in self.payment_set.all():
             total_payment_balance += payment.value
         
-        return self.nominal_value - total_payment_balance
+        return round(amount - total_payment_balance, 2)
     
     def check_payment(self, payment_value):
         current_balance_due = self.get_balance_due()
@@ -63,6 +84,9 @@ class Loan(models.Model):
 
 
 class Payment(models.Model):
+
+    def __str__(self):
+        return "Pagamento %s de empréstimo %s" % (self.id, self.loan)
 
     loan = models.ForeignKey(
         Loan, 

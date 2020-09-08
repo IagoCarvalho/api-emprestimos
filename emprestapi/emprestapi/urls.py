@@ -22,5 +22,6 @@ urlpatterns = [
     path('', loan.ListLoans.as_view(), name='index'),
     path('admin/', admin.site.urls),
     path('users/', include('usermanagement.urls')),
-    path('financials/', include('financials.urls')),
+    path('financials/', include('financials.urls', namespace='financials')),
+    path('', include('django.contrib.auth.urls')),
 ]

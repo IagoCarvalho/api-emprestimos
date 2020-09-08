@@ -8,7 +8,6 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from financials.models import Loan
 from financials.serializers import LoanSerializer
-
 from financials.utils import get_client_ip_address
 
 
@@ -16,15 +15,18 @@ class CreateLoan(CreateAPIView):
     """
     TODO
     """
-    model = Loan
+
+    class Meta:
+        model = Loan
+    
     permission_classes = [
-        AllowAny
+        IsAuthenticated
     ]
     serializer_class = LoanSerializer
 
     def create(self, request, *args,**kwargs):
         client_ip = get_client_ip_address(request)
-        user = User.objects.all().last()
+        user = request.user
 
         loan = LoanSerializer(data=request.data)
         if loan.is_valid():
@@ -36,16 +38,16 @@ class CreateLoan(CreateAPIView):
 
 class ListLoans(ListAPIView):
     """
-    TODO
+    Teste
     """
 
-    serializer_class = LoanSerializer
     permission_classes = [
-        AllowAny
+        IsAuthenticated
     ]
+    serializer_class = LoanSerializer
 
     def get_queryset(self):
-        user = User.objects.all().last()
+        user = self.request.user
         queryset = Loan.objects.filter(client=user)
 
         return queryset
@@ -56,13 +58,13 @@ class DetailLoan(RetrieveAPIView):
     TODO
     """
 
-    serializer_class = LoanSerializer
     permission_classes = [
-        AllowAny
+        IsAuthenticated
     ]
+    serializer_class = LoanSerializer
 
     def get(self, request, pk, format=None):
-        user = User.objects.all().last()
+        user = request.user
 
         try:
             loan = Loan.objects.get(pk=pk)

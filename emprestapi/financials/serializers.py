@@ -16,7 +16,8 @@ class LoanSerializer(serializers.ModelSerializer):
             'client', 
             'ip_adress', 
             'id',
-            'balance_due'
+            'balance_due',
+            'acquittance_time'
         ]
         extra_kwargs = {
             'client': {
