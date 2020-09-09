@@ -103,13 +103,22 @@ WSGI_APPLICATION = 'emprestapi.wsgi.application'
 #     }
 # }
 
+# DATABASES = {'default': {
+#     'ENGINE': 'django.db.backends.postgresql_psycopg2',  
+#     'NAME': 'onidata', 
+#     'USER': 'postgres', 
+#     'PASSWORD': '123', 
+#     'HOST': '127.0.0.1', 
+#     'PORT': '5432'}}
+
 DATABASES = {'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',  
-    'NAME': 'onidata', 
+    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'HOST': 'db',  
+    'NAME': 'postgres', 
     'USER': 'postgres', 
-    'PASSWORD': '123', 
-    'HOST': '127.0.0.1', 
+    'PASSWORD': 'postgres', 
     'PORT': '5432'}}
+
 
 
 # Password validation
