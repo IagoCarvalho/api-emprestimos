@@ -57,15 +57,3 @@ class PaymentSerializer(serializers.ModelSerializer):
                 'read_only': True,
             },
         }
-    
-    # def __init__(self, *args, **kwargs):
-    #     self.user 
-    #     super().__init__(*args, **kwargs)
-
-    # def get_fields(self, *args, **kwargs):
-    #     fields = super(PaymentSerializer, self).get_fields(*args, **kwargs)
-    #     loans = Loan.objects.filter(client=self.user)
-
-    #     fields.get('loan').queryset = loans
-
-    #     return fields

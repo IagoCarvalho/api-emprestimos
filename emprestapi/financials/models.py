@@ -64,11 +64,8 @@ class Loan(models.Model):
 
 
     def get_balance_due(self):
-        #DAYS_PER_MONTH = 30
-        #DAYS_PER_YEAR = 360
 
         interest_rate_per_month = float(self.interest_rate / 100)
-        #ir_pro_rata = (interest_rate_per_month) / DAYS_PER_MONTH
         capital = float(self.nominal_value)
         time = self.acquittance_time
 

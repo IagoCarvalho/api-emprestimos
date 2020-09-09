@@ -44,6 +44,7 @@ POST /users/rest_auth/registration/
 PARAMS username, email, password1, password2
 ```
 
+**Endpoint desprotegido para fim auxiliar de listagem**
 ```
 GET /users/list
 ```
