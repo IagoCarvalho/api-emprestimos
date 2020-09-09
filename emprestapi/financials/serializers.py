@@ -58,14 +58,14 @@ class PaymentSerializer(serializers.ModelSerializer):
             },
         }
     
-    def __init__(self, *args, **kwargs):
-        self.user = User.objects.all().last()
-        super().__init__(*args, **kwargs)
+    # def __init__(self, *args, **kwargs):
+    #     self.user 
+    #     super().__init__(*args, **kwargs)
 
-    def get_fields(self, *args, **kwargs):
-        fields = super(PaymentSerializer, self).get_fields(*args, **kwargs)
-        loans = Loan.objects.filter(client=self.user)
+    # def get_fields(self, *args, **kwargs):
+    #     fields = super(PaymentSerializer, self).get_fields(*args, **kwargs)
+    #     loans = Loan.objects.filter(client=self.user)
 
-        fields.get('loan').queryset = loans
+    #     fields.get('loan').queryset = loans
 
-        return fields
+    #     return fields

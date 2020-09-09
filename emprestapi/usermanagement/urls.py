@@ -11,7 +11,6 @@ app_name = 'usermanagement'
 
 urlpatterns = [
     path('list/', views.UserList.as_view(), name='list'),
-    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
     path('rest_auth/', include('rest_auth.urls')),
     path('rest_auth/registration/', include('rest_auth.registration.urls')),
 ]

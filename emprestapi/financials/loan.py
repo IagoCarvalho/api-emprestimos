@@ -13,7 +13,17 @@ from financials.utils import get_client_ip_address
 
 class CreateLoan(CreateAPIView):
     """
-    TODO
+    Endpoint for loan's creation,
+    receives nominal_value, interest_rate, bank name, acquittance_time 
+    and returns the created Loan the data is valid.
+    ---------
+    Accept the following POST parameters: 
+        nominal_value,
+        interest_rate,
+        bank,
+        acquittance_time
+    Requires an authorization Token
+    Return JSON with the loan's data.
     """
 
     class Meta:
@@ -38,7 +48,10 @@ class CreateLoan(CreateAPIView):
 
 class ListLoans(ListAPIView):
     """
-    Teste
+    Endpoint for listing the client's loans.
+    ---------
+    Accepts a Token authenticated GET request
+    Returns a JSON list with loans data.
     """
 
     permission_classes = [
@@ -55,9 +68,11 @@ class ListLoans(ListAPIView):
 
 class DetailLoan(RetrieveAPIView):
     """
-    TODO
+    Endpoint for retrieving a specific loan's data.
+    ---------
+    Accepts a Token authenticated GET request with the loan's id.
+    Returns a JSON list with the loan's data.
     """
-
     permission_classes = [
         IsAuthenticated
     ]

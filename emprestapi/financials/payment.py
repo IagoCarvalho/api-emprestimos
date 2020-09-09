@@ -8,22 +8,27 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from financials.models import Payment, Loan
 from financials.serializers import PaymentSerializer
-
 from financials.utils import get_client_ip_address
 
 
 class CreatePayment(CreateAPIView):
     """
-    TODO
+    Endpoint for loan's payment creation,
+    receives a value and returns the Payment data if the payment is valid.
+    ---------
+    Accept the following POST parameters: payment's value, loan id
+    Requires an authorization token
+    Return JSON with payment's data.
     """
+
     model = Payment
     permission_classes = [
-        AllowAny
+        IsAuthenticated
     ]
     serializer_class = PaymentSerializer
 
     def create(self, request, *args,**kwargs):
-        user = User.objects.all().last()
+        user = request.user
         payment = PaymentSerializer(data=request.data)
 
         if payment.is_valid():
@@ -53,16 +58,19 @@ class CreatePayment(CreateAPIView):
 
 class ListPayment(ListAPIView):
     """
-    TODO
+    Endpoint for listing the client's payment.
+    ---------
+    Accepts a Token authenticated GET request
+    Returns a JSON list with payments data.
     """
 
     serializer_class = PaymentSerializer
     permission_classes = [
-        AllowAny
+        IsAuthenticated
     ]
 
     def get_queryset(self):
-        user = User.objects.all().last()
+        user = self.request.user
         queryset = Payment.objects.filter(loan__client=user)
 
         return queryset
@@ -70,16 +78,19 @@ class ListPayment(ListAPIView):
 
 class DetailPayment(RetrieveAPIView):
     """
-    TODO
+    Endpoint for retrieving a specific payment's data.
+    ---------
+    Accepts a Token authenticated GET request with the payment's id.
+    Returns a JSON list with the payment's data.
     """
 
     serializer_class = PaymentSerializer
     permission_classes = [
-        AllowAny
+        IsAuthenticated
     ]
 
     def get(self, request, pk, format=None):
-        user = User.objects.all().last()
+        user = request.user
 
         try:
             payment = Payment.objects.get(pk=pk)

@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.validators import MinValueValidator
+from decimal import Decimal
 from django.contrib.auth.models import User
 
 
@@ -11,6 +13,7 @@ class Loan(models.Model):
         null=False, 
         blank=False,
         max_digits=12, 
+        validators=[MinValueValidator(Decimal('0.01'))],
         decimal_places=2,
         verbose_name='Valor emprestado pelo banco'
     )
@@ -64,18 +67,19 @@ class Loan(models.Model):
         #DAYS_PER_MONTH = 30
         #DAYS_PER_YEAR = 360
 
-        interest_rate_per_month = self.interest_rate / 100
-        #ir_pro_rata = (interest_rate_per_month) #/ DAYS_PER_MONTH
-        capital = self.nominal_value
+        interest_rate_per_month = float(self.interest_rate / 100)
+        #ir_pro_rata = (interest_rate_per_month) / DAYS_PER_MONTH
+        capital = float(self.nominal_value)
         time = self.acquittance_time
 
-        amount = capital * pow((1 + interest_rate_per_month), time)
+        amount = float(capital * pow((1 + interest_rate_per_month), time))
 
         total_payment_balance = 0
         for payment in self.payment_set.all():
             total_payment_balance += payment.value
         
-        return round(amount - total_payment_balance, 2)
+        balance_due = amount - float(total_payment_balance) 
+        return round(balance_due, 2)
     
     def check_payment(self, payment_value):
         current_balance_due = self.get_balance_due()
@@ -107,6 +111,7 @@ class Payment(models.Model):
         null=False, 
         blank=False,
         max_digits=12, 
+        validators=[MinValueValidator(Decimal('0.01'))],
         decimal_places=2,
         verbose_name='Valor do pagamento'
     )
