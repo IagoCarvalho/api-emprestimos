@@ -14,6 +14,11 @@ $ git clone https://github.com/IagoCarvalho/api-emprestimos.git
 $ docker-compose up
 ```
 
+* **Caso não seja possível conectar a database ou ocorra algum problema na criação do container**
+```
+$ docker-compose up --build --force-recreate --no-dep
+```
+
 * Determine o id do container web com
 
 ```
